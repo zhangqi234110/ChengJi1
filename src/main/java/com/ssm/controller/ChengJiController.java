@@ -26,9 +26,9 @@ public class ChengJiController {
 
     @RequestMapping(value = "/selectOne",method = RequestMethod.POST)
     public Common selectOne(int id){
-        ChengJi chengJi = chengJiService.selectOne(id);
+        //ChengJi chengJi = chengJiService.selectOne(id);
         Jedis jedis = RedisUtil.getJedis();
-        jedis.set("chengjidan".getBytes(), SerializeUtil.serialize(chengJi));
+        //jedis.set("chengjidan".getBytes(), SerializeUtil.serialize(chengJi));
         ChengJi o = (ChengJi) SerializeUtil.unSerialize(jedis.get("chengjidan".getBytes()));
         //设置ip地址和端口
         /*Jedis jedis = new Jedis("127.0.0.1",6379);
@@ -60,8 +60,14 @@ public class ChengJiController {
     @RequestMapping(value = "/updateOne",method = RequestMethod.PUT)
     public Common deleteOne(ChengJi chengJi){
         Jedis jedis = RedisUtil.getJedis();
-       // jedis.set("chengjidan".getBytes(), SerializeUtil.serialize(chengJi));
+       //
         ChengJi o = (ChengJi) SerializeUtil.unSerialize(jedis.get("chengjidan".getBytes()));
+        if (o != null) {
+            int fenshu = o.getFenshu();
+             int fenshu1=fenshu-1;
+            o.setFenshu(fenshu1);
+            jedis.set("chengjidan".getBytes(), SerializeUtil.serialize(o));
+        }
         int i = chengJiService.updateOne(o);
         return new Common(200,"修改成功",i);
 

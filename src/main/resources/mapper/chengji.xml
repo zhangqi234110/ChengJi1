@@ -16,7 +16,7 @@
 
     <update id="updateOne" parameterType="com.ssm.pojo.ChengJi">
 
-        UPDATE chengji set fenshu=fenshu-1 where id=#{id}
+        UPDATE chengji set fenshu=#{fenshu} where id=#{id}
 
     </update>
 
